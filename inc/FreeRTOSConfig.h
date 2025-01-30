@@ -9,7 +9,7 @@
 
 /* Cortex-M specific definitions */
 #define configUSE_PREEMPTION                  1
-#define configCPU_CLOCK_HZ                    (SystemCoreClock) // CPU Clock Frequency
+#define configCPU_CLOCK_HZ                    (110000000ul) // CPU Clock Frequency
 #define configTICK_RATE_HZ                    (1000u) // 1 ms tick
 #define configMAX_PRIORITIES                  5                 // Maximum number of priorities
 #define configMINIMAL_STACK_SIZE              ((uint16_t)128)   // Minimal stack size in words
@@ -61,7 +61,7 @@
 
 /* Idle */
 #define configEXPECTED_IDLE_TIME_BEFORE_SLEEP 5
-#define configUSE_TICKLESS_IDLE               2                 // 1 to enable, 2 to create specific port
+#define configUSE_TICKLESS_IDLE               1                 // 1 to enable, 2 to create specific port
 
 /*-----------------------------------------------------------
  * Optional functions

@@ -71,13 +71,13 @@ target_link_options(${EXECUTABLE} PRIVATE
 
 # Include libraries
 # Transmit options to FreeRTOS for cross compilation
-# target_compile_options(freertos_config INTERFACE
-# 	${COMPILE_OPTIONS_PROJECT}
-# )
-# target_link_options(freertos_config INTERFACE
-# 	${LINK_OPTIONS_PROJECT}
-# )
-# target_link_libraries(${EXECUTABLE} PRIVATE freertos_kernel)
+target_compile_options(freertos_config INTERFACE
+	${COMPILE_OPTIONS_PROJECT}
+)
+target_link_options(freertos_config INTERFACE
+	${LINK_OPTIONS_PROJECT}
+)
+target_link_libraries(${EXECUTABLE} PRIVATE freertos_kernel)
 
 # Execute post-build to print size
 add_custom_command(TARGET ${EXECUTABLE} POST_BUILD

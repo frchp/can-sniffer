@@ -10,9 +10,12 @@ ${PROJ_PATH}/src/bsp/watchdog
 ${PROJ_PATH}/src/utils/error
 ${PROJ_PATH}/src/utils/ring_buffer
 ${PROJ_PATH}/src
-# ${PROJ_PATH}/inc
+${PROJ_PATH}/inc
 # tasks
 ${PROJ_PATH}/src/tasks
+${PROJ_PATH}/src/tasks/idle
+${PROJ_PATH}/src/tasks/media
+${PROJ_PATH}/src/tasks/watchdog
 # vendor
 ${PROJ_PATH}/vendor/CMSIS
 ${PROJ_PATH}/vendor/Device

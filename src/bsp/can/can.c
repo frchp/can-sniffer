@@ -2,6 +2,7 @@
 
 #include "stm32l552xx.h"
 #include "uart.h"
+#include "FreeRTOSConfig.h"
 #include <stdio.h> // TODO : to be moved
 #include <string.h>
 
@@ -25,6 +26,7 @@ void can_init(void)
   // Enable RX FIFO 0 new message interrupt
   FDCAN1->IE |= FDCAN_IE_RF0NE;
   NVIC_EnableIRQ(FDCAN1_IT0_IRQn);
+  NVIC_SetPriority(FDCAN1_IT0_IRQn, configMAX_SYSCALL_INTERRUPT_PRIORITY - 1u);
 
   // Exit initialization mode
   FDCAN1->CCCR &= ~FDCAN_CCCR_INIT;

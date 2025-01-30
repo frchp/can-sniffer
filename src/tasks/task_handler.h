@@ -4,11 +4,11 @@
 /**
   @brief Setup OS tasks.
  */
-void TaskHandler_Init(void);
+void task_init(void);
 
 /**
   @brief Start OS.
  */
-void TaskHandler_StartOS(void);
+void task_startOS(void);
 
 #endif // _TASK_HANDLER_H_

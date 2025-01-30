@@ -12,4 +12,7 @@ ${PROJ_PATH}/src/bsp/uart/uart.c
 ${PROJ_PATH}/src/bsp/watchdog/watchdog.c
 ${PROJ_PATH}/src/utils/error/error.c
 ${PROJ_PATH}/src/utils/ring_buffer/ring_buffer.c
+${PROJ_PATH}/src/tasks/task_handler.c
+${PROJ_PATH}/src/tasks/media/media_task.c
+${PROJ_PATH}/src/tasks/watchdog/wdog_task.c
 )

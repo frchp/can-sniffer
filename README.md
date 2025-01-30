@@ -55,3 +55,14 @@ Each MCU has their own ARM compiler flags. Those are defined in a individual mod
 ## Documentation
  - [FreeRTOS and Low power](https://www.freertos.org/low-power-ARM-cortex-rtos)
  - [Optimizing low power](https://mcuoneclipse.com/2024/05/22/low-power-optimization-techniques-for-arm-cortex-m0-microcontrollers/)
+
+## TODO
+ - Uniformize convention
+ - Setup app
+    - uart to redo properly
+    - can : call media task and send to queue can data
+    - mcp2551
+        - txd interrupt
+        - rxd interrupt
+        - RS to put to sleep
+ - HW : board with MCP2551, 5v from nucleo

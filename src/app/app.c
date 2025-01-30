@@ -5,5 +5,5 @@
  */
 void app_init(void)
 {
-  /* TODO : initialize upper layer if needed */
+  // Nothing for now
 }
