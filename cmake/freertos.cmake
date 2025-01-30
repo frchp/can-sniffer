@@ -1,3 +1,4 @@
+# TODO : uncomment when tasks needed
 # message("freertos.cmake")
 
 # set(FREERTOS_PORT GCC_ARM_CM33_NTZ_NONSECURE CACHE STRING "")

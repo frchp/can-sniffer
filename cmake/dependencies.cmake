@@ -4,6 +4,7 @@ message("dependencies.cmake")
 
 list(APPEND CMAKE_MESSAGE_INDENT "|")
 
+# TODO : uncomment this
 # message("cube-l5")
 # FetchContent_Declare(
 #   cube-l5
