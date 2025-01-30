@@ -17,21 +17,7 @@ typedef enum
 
 typedef enum
 {
-  ERR_APP_ORDER_HANDLER,
-
-  ERR_BSP_ADC,
-  ERR_BSP_CORTEX_FAULT,
-  ERR_BSP_DMA_CH1,
-  ERR_BSP_DMA_CH2,
-  ERR_BSP_UART,
-  ERR_BSP_LPTIM,
-
-  ERR_OS_MEDIA_TASK,
-  ERR_OS_MOTOR_TASK,
-  ERR_OS_WDOG_TASK,
-  ERR_OS_SUPERVISOR_TASK,
-  ERR_OS_IDLE,
-
+  /* TODO : Add CAN sniffer errors codes */
   ERR_OTHER
 } Error_Component_t;
 

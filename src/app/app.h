@@ -4,6 +4,6 @@
 /**
   @brief Setup the application.
  */
-void App_Init(void);
+void app_init(void);
 
 #endif // _APP_H_

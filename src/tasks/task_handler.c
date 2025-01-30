@@ -2,72 +2,18 @@
 
 #include "task_handler.h"
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "FreeRTOSConfig.h"
+// #include "FreeRTOS.h"
+// #include "task.h"
+// #include "FreeRTOSConfig.h"
 
 #include "error.h"
-#include "media_task.h"
-#include "motor_task.h"
-#include "wdog_task.h"
-#include "supervisor_task.h"
 
 /**
   @brief Setup OS tasks.
  */
 void TaskHandler_Init(void)
 {
-  // Create MEDIA Task
-  gbl_sMediaTaskHandle = xTaskCreateStatic(MediaTask,            // Task function
-              "MEDIA",              // Task name
-              MEDIA_TASK_STACK_SIZE,                  // Stack size in words
-              NULL,                 // Task parameter
-              tskIDLE_PRIORITY + MEDIA_TASK_PRIORITY, // Task priority
-              gbl_sStackMedia,
-              &gbl_sTCBMedia );
-  if(gbl_sMediaTaskHandle == NULL)
-  {
-    Error_Handler(true, ERR_OS_MEDIA_TASK, ERR_TYPE_INIT);
-  }
-
-  // Create MOTOR_DRIVING Task
-  gbl_sMotorDrivingTaskHandle = xTaskCreateStatic(MotorDrivingTask,            // Task function
-              "MOTOR_DRIVING",             // Task name
-              MOTOR_TASK_STACK_SIZE,                         // Stack size in words
-              NULL,                        // Task parameter
-              tskIDLE_PRIORITY + MOTOR_TASK_PRIORITY,        // Task priority
-              gbl_sStackMotor,
-              &gbl_sTCBMotor );
-  if(gbl_sMotorDrivingTaskHandle == NULL)
-  {
-    Error_Handler(true, ERR_OS_MOTOR_TASK, ERR_TYPE_INIT);
-  }
-
-  // Create WATCHDOG Task
-  gbl_sWatchdogTaskHandle = xTaskCreateStatic(WatchdogTask,            // Task function
-              "WATCHDOG",             // Task name
-              WDOG_TASK_STACK_SIZE,                         // Stack size in words
-              NULL,                        // Task parameter
-              tskIDLE_PRIORITY + WDOG_TASK_PRIORITY,        // Task priority
-              gbl_sStackWdog,
-              &gbl_sTCBWdog );
-  if(gbl_sWatchdogTaskHandle == NULL)
-  {
-    Error_Handler(true, ERR_OS_WDOG_TASK, ERR_TYPE_INIT);
-  }
-
-  // Create SUPERVISOR Task
-  gbl_sSupervisorTaskHandle = xTaskCreateStatic(SupervisorTask,            // Task function
-              "SUPERVISOR",             // Task name
-              SUPERVISOR_TASK_STACK_SIZE,                         // Stack size in words
-              NULL,                        // Task parameter
-              tskIDLE_PRIORITY + SUPERVISOR_TASK_PRIORITY,        // Task priority
-              gbl_sStackSupervisor,
-              &gbl_sTCBSupervisor );
-  if(gbl_sSupervisorTaskHandle == NULL)
-  {
-    Error_Handler(true, ERR_OS_SUPERVISOR_TASK, ERR_TYPE_INIT);
-  }
+  /* TODO : add tasks if needed */
 }
 
 /**
@@ -76,7 +22,7 @@ void TaskHandler_Init(void)
 void TaskHandler_StartOS(void)
 {
   // Start the FreeRTOS Scheduler
-  vTaskStartScheduler();
+  // vTaskStartScheduler();
 }
 
 /**

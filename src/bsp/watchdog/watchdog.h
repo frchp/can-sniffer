@@ -1,14 +1,7 @@
 #ifndef _WATCHDOG_H_
 #define _WATCHDOG_H_
 
-/**
-  @brief Setup the Watchdog.
- */
-void Watchdog_Activate(void);
-
-/**
-  @brief Kick the dog.
- */
-void Watchdog_Refresh(void);
+void watchdog_init(void);
+void watchdog_refresh(void);
 
 #endif // _WATCHDOG_H_

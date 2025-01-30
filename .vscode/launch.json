@@ -7,6 +7,7 @@
             "executable": "${workspaceFolder}/build/stm32-l5-sandbox.elf",
             "request": "launch",
             "type": "cortex-debug",
+            "preLaunchTask": "Build project",
             "servertype": "openocd",
             "liveWatch": {
                 "enabled": true,

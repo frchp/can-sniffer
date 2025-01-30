@@ -19,11 +19,11 @@ bool RingBuffer_Init(RingBuffer_t *arg_psBuff, uint16_t arg_u16Size)
   else
   {
     // Atomically initialize the structure
-    uint32_t loc_u32Status = Bsp_EnterCritical();
+    uint32_t loc_u32Status = bsp_enterCritical();
     arg_psBuff->u16Size = arg_u16Size;
     arg_psBuff->u16Head = 0u;
     arg_psBuff->u16Count = 0u;
-    Bsp_ExitCritical(loc_u32Status);
+    bsp_exitCritical(loc_u32Status);
   }
 
   return loc_bRet;
@@ -43,7 +43,7 @@ bool RingBuffer_Add(RingBuffer_t *arg_psBuff, uint8_t arg_u8Data)
   }
   else
   {
-    uint32_t loc_u32Status = Bsp_EnterCritical();
+    uint32_t loc_u32Status = bsp_enterCritical();
     if (arg_psBuff->u16Count < arg_psBuff->u16Size) {
       uint16_t loc_u16Index = (arg_psBuff->u16Head + arg_psBuff->u16Count) % arg_psBuff->u16Size;
 
@@ -55,7 +55,7 @@ bool RingBuffer_Add(RingBuffer_t *arg_psBuff, uint8_t arg_u8Data)
       arg_psBuff->au8Data[arg_psBuff->u16Head] = arg_u8Data;
       arg_psBuff->u16Head = (arg_psBuff->u16Head + 1) % arg_psBuff->u16Size;
     }
-    Bsp_ExitCritical(loc_u32Status);
+    bsp_exitCritical(loc_u32Status);
   }
 
   return loc_bRet;
@@ -73,11 +73,11 @@ uint8_t RingBuffer_Peek(RingBuffer_t *arg_psBuff)
   }
   else
   {
-    uint32_t loc_u32Status = Bsp_EnterCritical();
+    uint32_t loc_u32Status = bsp_enterCritical();
     if (arg_psBuff->u16Count > 0) {
       loc_u8Ret = arg_psBuff->au8Data[arg_psBuff->u16Head];
     }
-    Bsp_ExitCritical(loc_u32Status);
+    bsp_exitCritical(loc_u32Status);
   }
 
   return loc_u8Ret;
@@ -95,13 +95,13 @@ uint8_t RingBuffer_Remove(RingBuffer_t *arg_psBuff)
   }
   else
   {
-    uint32_t loc_u32Status = Bsp_EnterCritical();
+    uint32_t loc_u32Status = bsp_enterCritical();
     if (arg_psBuff->u16Count > 0) {
       loc_u8Ret = arg_psBuff->au8Data[arg_psBuff->u16Head];
       arg_psBuff->u16Head = (arg_psBuff->u16Head + 1) % arg_psBuff->u16Size;
       arg_psBuff->u16Count--;
     }
-    Bsp_ExitCritical(loc_u32Status);
+    bsp_exitCritical(loc_u32Status);
   }
 
   return loc_u8Ret;
@@ -120,9 +120,9 @@ bool RingBuffer_IsEmpty(RingBuffer_t *arg_psBuff)
   }
   else
   {
-    uint32_t loc_u32Status = Bsp_EnterCritical();
+    uint32_t loc_u32Status = bsp_enterCritical();
     loc_bRet = (arg_psBuff->u16Count == 0);
-    Bsp_ExitCritical(loc_u32Status);
+    bsp_exitCritical(loc_u32Status);
   }
 
   return loc_bRet;
@@ -141,9 +141,9 @@ bool RingBuffer_IsFull(RingBuffer_t *arg_psBuff)
   }
   else
   {
-    uint32_t loc_u32Status = Bsp_EnterCritical();
+    uint32_t loc_u32Status = bsp_enterCritical();
     loc_bRet = (arg_psBuff->u16Count == arg_psBuff->u16Size);
-    Bsp_ExitCritical(loc_u32Status);
+    bsp_exitCritical(loc_u32Status);
   }
 
   return loc_bRet;

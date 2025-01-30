@@ -1,7 +1,7 @@
-# stm32-l552-sandbox
-Sandbox for my NUCLEO projects
+# CAN sniffer
+Based on [sandbox](https://github.com/frchp/stm32-l552-sandbox)
 
-![Build status](https://github.com/frchp/stm32-l552-sandbox/actions/workflows/actions.yml/badge.svg)
+![Build status](https://github.com/frchp/can-sniffer/actions/workflows/actions.yml/badge.svg)
 
 ## Toolchain
 - [ARM GNU](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)
@@ -51,9 +51,6 @@ Each MCU has their own ARM compiler flags. Those are defined in a individual mod
 | STM32WB      | `cortex-m4`     | `fpv4-sp-d16` | `hard`      |
 | STM32WL CM4  | `cortex-m4`     | `Not used`    | `soft`      |
 | STM32WL CM0  | `cortex-m0plus` | `Not used`    | `soft`      |
-
-## Improvements (by order of priority)
- - BSP : independant from LL
 
 ## Documentation
  - [FreeRTOS and Low power](https://www.freertos.org/low-power-ARM-cortex-rtos)

@@ -1,0 +1,39 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.encoding": "utf8",
+		"editor.tabSize": 2,
+		"terminal.integrated.defaultProfile.windows": "Git Bash",
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/Thumbs.db": true,
+			"**/CMakeFiles/": true,
+			"**/cmake_install.cmake": true
+		},
+		"cortex-debug.variableUseNaturalFormat": true,
+		"files.associations": {
+			"motor_task.h": "c",
+			"*.in": "cpp",
+			"initializer_list": "c",
+			"utility": "c",
+			"xutility": "c",
+			"xmemory": "c",
+			"cstddef": "c",
+			"type_traits": "c",
+			"algorithm": "c",
+			"limits": "c",
+			"compare": "cpp",
+			"tuple": "cpp",
+			"xtr1common": "cpp",
+			"app.h": "c"
+		}
+	}
+}

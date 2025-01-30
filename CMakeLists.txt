@@ -14,9 +14,9 @@ set(PROJ_PATH                       ${CMAKE_CURRENT_SOURCE_DIR})
 set(DEP_PATH												${CMAKE_CURRENT_SOURCE_DIR}/build/_deps)
 set(CMAKE_TOOLCHAIN_FILE			gcc-arm-none-eabi)
 
-message("stm32-l5-sandbox")
+message("CAN SNIFFER")
 list(APPEND CMAKE_MESSAGE_INDENT "|")
-project(stm32-l5-sandbox LANGUAGES C ASM)
+project(can-sniffer LANGUAGES C ASM)
 
 include(${CMAKE_MODULE_PATH}/config.cmake)
 include(${CMAKE_MODULE_PATH}/freertos.cmake)
@@ -71,13 +71,13 @@ target_link_options(${EXECUTABLE} PRIVATE
 
 # Include libraries
 # Transmit options to FreeRTOS for cross compilation
-target_compile_options(freertos_config INTERFACE
-	${COMPILE_OPTIONS_PROJECT}
-)
-target_link_options(freertos_config INTERFACE
-	${LINK_OPTIONS_PROJECT}
-)
-target_link_libraries(${EXECUTABLE} PRIVATE freertos_kernel)
+# target_compile_options(freertos_config INTERFACE
+# 	${COMPILE_OPTIONS_PROJECT}
+# )
+# target_link_options(freertos_config INTERFACE
+# 	${LINK_OPTIONS_PROJECT}
+# )
+# target_link_libraries(${EXECUTABLE} PRIVATE freertos_kernel)
 
 # Execute post-build to print size
 add_custom_command(TARGET ${EXECUTABLE} POST_BUILD

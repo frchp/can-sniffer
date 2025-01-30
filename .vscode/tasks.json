@@ -1,5 +1,29 @@
 {
 	"version": "2.0.0",
 	"tasks": [
+		{
+			"label": "Configure project",
+			"type": "shell",
+			"command": "cmake --preset Debug",
+			"group": "build",
+			"presentation": {
+					"reveal": "always",
+					"panel": "dedicated"
+			}
+		},
+		{
+			"label": "Build project",
+			"type": "shell",
+			"command": "cmake --build build",
+			"dependsOn": [
+					"Configure project"
+			],
+			"isBackground": true,
+			"group": "build",
+			"presentation": {
+					"reveal": "always",
+					"panel": "dedicated"
+			}
+		},
 	]
 }

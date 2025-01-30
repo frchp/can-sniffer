@@ -1,46 +1,28 @@
-#include <stddef.h>
-
 #include "bsp.h"
 
-#include "system.h"
-#include "adc.h"
-#include "adc_config.h"
+#include "can.h"
 #include "gpio.h"
-#include "board.h"
-#include "timer_counter.h"
-#include "timer_pwm.h"
 #include "uart.h"
 #include "watchdog.h"
-
-const SignalConfig_t gbl_sAdcSignalConfig[ADC_NB_SIGNALS] =
-{
-  {
-    BOARD_ADC_MTR_CURRENT_CHANNEL,
-    NULL
-  }
-};
 
 /**
   @brief Setup the BSP.
  */
-void Bsp_Init (void)
+void bsp_init (void)
 {
-  system_InitSystem();
-  Gpio_Init();
-  Adc_Init(gbl_sAdcSignalConfig);
-  TimerCounter_Init();
-  TimerPwm_Init();
-  Uart_Init();
+  gpio_init();
+  can_init();
+  uart_init();
+  watchdog_init();
 }
 
-/**
-  @brief Activate the BSP.
- */
-void Bsp_Activate (void)
+void SystemInit (void)
 {
-  Adc_Activate();
-  TimerCounter_Activate();
-  TimerPwm_Activate();
-  Uart_Activate();
-  Watchdog_Activate(); // Last to be activated, to not trigger reset during Init
+#if defined(USER_VECT_TAB_ADDRESS)
+  SCB->VTOR = VECT_TAB_BASE_ADDRESS | VECT_TAB_OFFSET;
+#endif
+
+#if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+  SCB->CPACR |= ((3UL << 20U)|(3UL << 22U));  /* set CP10 and CP11 Full Access */
+#endif
 }
