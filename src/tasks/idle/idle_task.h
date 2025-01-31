@@ -1,6 +1,8 @@
 #ifndef _IDLE_TASK_H_
 #define _IDLE_TASK_H_
 
+#include <stdint.h>
+
 /**
  * LPM_MODE_SLEEP     CPU clock OFF, WFI
  * LPM_MODE_LP_SLEEP  CPU clock OFF, Set LPR bit - WFI - Return from ISR
@@ -17,22 +19,14 @@
  * 3. Use User tickless idle : configUSE_TICKLESS_IDLE > 1 : similar to idle hook except idle hook can wake up on next tick
  */
 
-#include "FreeRTOSConfig.h"
+/**
+  @brief Implements configPRE_SLEEP_PROCESSING macro.
+ */
+void idle_onEntrySleep(uint32_t xExpectedIdleTime);
 
-#if configUSE_IDLE_HOOK == 1
-  #pragma message "User defined idle hook enabled"
-#endif
-
-#if configUSE_TICKLESS_IDLE == 0
-  #pragma message "Tickless idle disabled"
-#endif
-
-#if configUSE_TICKLESS_IDLE == 1
-  #pragma message "FreeRTOS tickless idle enabled"
-#endif
-
-#if configUSE_TICKLESS_IDLE > 1
-  #pragma message "User defined tickless idle enabled"
-#endif
+/**
+  @brief Implements configPOST_SLEEP_PROCESSING macro.
+ */
+void idle_onExitSleep(uint32_t xExpectedIdleTime);
 
 #endif // _IDLE_TASK_H_

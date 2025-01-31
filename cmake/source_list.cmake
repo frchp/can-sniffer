@@ -21,6 +21,7 @@ ${PROJ_PATH}/src/utils/error/error.c
 ${PROJ_PATH}/src/utils/ring_buffer/ring_buffer.c
 # tasks
 ${PROJ_PATH}/src/tasks/task_handler.c
+${PROJ_PATH}/src/tasks/idle/idle_task.c
 ${PROJ_PATH}/src/tasks/media/media_task.c
 ${PROJ_PATH}/src/tasks/watchdog/wdog_task.c
 )
