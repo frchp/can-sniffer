@@ -2,9 +2,12 @@
 
 #include "stm32l552xx.h"
 
+/**
+  @brief Initialize project GPIO.
+ */
 void gpio_init(void)
 {
-    RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN | RCC_AHB2ENR_GPIOBEN;
+  RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN | RCC_AHB2ENR_GPIOBEN;
 
   // Configure PB8 as CAN1_RX and PB9 as CAN1_TX (AF9)
   GPIOB->MODER &= ~(GPIO_MODER_MODE8 | GPIO_MODER_MODE9);

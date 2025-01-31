@@ -4,17 +4,17 @@
 #include "stm32l552xx.h"
 
 /* Watchdog task parameters */
-TaskHandle_t gbl_sWatchdogTaskHandle;
-StackType_t gbl_sStackWdog [WDOG_TASK_STACK_SIZE];
-StaticTask_t gbl_sTCBWdog;
+TaskHandle_t s_wdogTaskHdl;
+StackType_t s_wdogTaskStack [WDOG_TASK_STACK_SIZE];
+StaticTask_t s_wdogTaskTCB;
 
 #define GPIO_LED_ALIVE_PORT       (GPIOA)
 #define GPIO_LED_ALIVE_PIN        (GPIO_BSRR_BS9)
 #define GPIO_LED_ALIVE_PIN_Msk    (GPIO_ODR_OD9_Msk)
 
-void WatchdogTask(void *arg_pvParameters)
+void WatchdogTask(void *pv_param)
 {
-  (void)arg_pvParameters; // Avoid compiler warning for unused parameter
+  (void)pv_param; // Avoid compiler warning for unused parameter
 
   for (;;)
   {

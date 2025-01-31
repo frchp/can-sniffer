@@ -4,6 +4,7 @@ set(include_list ${include_list}
 ${PROJ_PATH}/src/app
 ${PROJ_PATH}/src/bsp
 ${PROJ_PATH}/src/bsp/can
+${PROJ_PATH}/src/bsp/clock
 ${PROJ_PATH}/src/bsp/gpio
 ${PROJ_PATH}/src/bsp/uart
 ${PROJ_PATH}/src/bsp/watchdog

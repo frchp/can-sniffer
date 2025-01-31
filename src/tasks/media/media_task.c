@@ -11,56 +11,57 @@
 #include "queue.h"
 
 /* Media task parameters*/
-TaskHandle_t gbl_sMediaTaskHandle;
-StackType_t gbl_sStackMedia [MEDIA_TASK_STACK_SIZE];
-StaticTask_t gbl_sTCBMedia;
+TaskHandle_t s_mediaTaskHdl;
+StackType_t s_mediaTaskStack [MEDIA_TASK_STACK_SIZE];
+StaticTask_t s_mediaTaskTCB;
 
 #define CANDATA_QUEUE_LENGTH            5u
 #define CANDATA_QUEUE_ITEM_SIZE         sizeof( Can_Data_t )
-static StaticQueue_t gbl_sCanDataQueue;
-static uint8_t gbl_au8CanDataQueueStorage[ CANDATA_QUEUE_LENGTH * CANDATA_QUEUE_ITEM_SIZE ];
-static QueueHandle_t gbl_sCanDataQueueHdl;
+static StaticQueue_t s_canDataQueue;
+static uint8_t au8_canDataQueueBuff[ CANDATA_QUEUE_LENGTH * CANDATA_QUEUE_ITEM_SIZE ];
+static QueueHandle_t s_canDataQueueHdl;
 
-static bool gbl_bTaskInitialized = false;
+static bool b_taskInit = false;
 
-void MediaTask_OnReception(void *can_data)
+void MediaTask_OnReception(void *pv_canData)
 {
   BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-  if(gbl_bTaskInitialized)
+  if(b_taskInit)
   {
     if(xPortIsInsideInterrupt() != 0u)
     {
       // In interrupt context
-      xQueueSendToBackFromISR(gbl_sCanDataQueueHdl,
-                    can_data,
+      xQueueSendToBackFromISR(s_canDataQueueHdl,
+                    pv_canData,
                     &xHigherPriorityTaskWoken);
-      vTaskNotifyGiveFromISR(gbl_sMediaTaskHandle, &xHigherPriorityTaskWoken);
+      vTaskNotifyGiveFromISR(s_mediaTaskHdl, &xHigherPriorityTaskWoken);
       portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
     }
     else
     {
-      xQueueSendToBack(gbl_sCanDataQueueHdl,
-                    can_data,
+      xQueueSendToBack(s_canDataQueueHdl,
+                    pv_canData,
                     0u);
-      xTaskNotifyGive(gbl_sMediaTaskHandle);
+      xTaskNotifyGive(s_mediaTaskHdl);
     }
   }
 }
 
-void MediaTask(void *arg_pvParameters)
+void MediaTask(void *pv_param)
 {
-  (void)arg_pvParameters; // Avoid compiler warning for unused parameter
+  (void)pv_param; // Avoid compiler warning for unused parameter
   uint32_t u32NotifiedValue;
+  Can_Data_t s_incomingCanData;
 
-  gbl_sCanDataQueueHdl = xQueueCreateStatic( CANDATA_QUEUE_LENGTH,
+  s_canDataQueueHdl = xQueueCreateStatic( CANDATA_QUEUE_LENGTH,
                                  CANDATA_QUEUE_ITEM_SIZE,
-                                 gbl_au8CanDataQueueStorage,
-                                 &gbl_sCanDataQueue );
-  if(gbl_sCanDataQueueHdl == NULL)
+                                 au8_canDataQueueBuff,
+                                 &s_canDataQueue );
+  if(s_canDataQueueHdl == NULL)
   {
     Error_Handler(true, ERR_OS_MEDIA_TASK, ERR_TYPE_INIT);
   }
-  gbl_bTaskInitialized = true;
+  b_taskInit = true;
 
   for (;;)
   {
@@ -70,9 +71,11 @@ void MediaTask(void *arg_pvParameters)
 
     if( u32NotifiedValue > 0u )
     {
-      // TODO : use queue to get data from CAN peripheral
-      // TODO : call application to set data correctly
-      // TODO : call UART to send data
+      if(xQueueReceive(s_canDataQueueHdl, &s_incomingCanData, 0u) == pdPASS)
+      {
+        // TODO : call application to set data correctly
+        // TODO : call UART to send data
+      }
     }
     else
     {

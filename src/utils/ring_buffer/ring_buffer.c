@@ -8,25 +8,25 @@
  * Function to initialize a buffer structure with the given size.
  * Returns true if we were able to initialize the buffer and false otherwise.
  */
-bool RingBuffer_Init(RingBuffer_t *arg_psBuff, uint16_t arg_u16Size)
+bool RingBuffer_Init(RingBuffer_t *ps_buff, uint16_t u16_size)
 {
-  bool loc_bRet = true;
+  bool b_ret = true;
 
-  if (arg_u16Size > RING_BUFFER_LEN_MAX || arg_psBuff == NULL) 
+  if (u16_size > RING_BUFFER_LEN_MAX || ps_buff == NULL) 
   {
-    loc_bRet = false;
+    b_ret = false;
   }
   else
   {
     // Atomically initialize the structure
-    uint32_t loc_u32Status = bsp_enterCritical();
-    arg_psBuff->u16Size = arg_u16Size;
-    arg_psBuff->u16Head = 0u;
-    arg_psBuff->u16Count = 0u;
-    bsp_exitCritical(loc_u32Status);
+    uint32_t u32_status = bsp_enterCritical();
+    ps_buff->u16_size = u16_size;
+    ps_buff->u16_head = 0u;
+    ps_buff->u16_count = 0u;
+    bsp_exitCritical(u32_status);
   }
 
-  return loc_bRet;
+  return b_ret;
 }
 
 /**
@@ -34,50 +34,50 @@ bool RingBuffer_Init(RingBuffer_t *arg_psBuff, uint16_t arg_u16Size)
  * full, the oldest queued item will be replaced by default.
  * Returns true if the data was stored and false otherwise.
  */
-bool RingBuffer_Add(RingBuffer_t *arg_psBuff, uint8_t arg_u8Data)
+bool RingBuffer_Add(RingBuffer_t *ps_buff, uint8_t arg_u8Data)
 {
-  bool loc_bRet = true;
+  bool b_ret = true;
 
-  if (arg_psBuff == NULL) {
-    loc_bRet = false;
+  if (ps_buff == NULL) {
+    b_ret = false;
   }
   else
   {
-    uint32_t loc_u32Status = bsp_enterCritical();
-    if (arg_psBuff->u16Count < arg_psBuff->u16Size) {
-      uint16_t loc_u16Index = (arg_psBuff->u16Head + arg_psBuff->u16Count) % arg_psBuff->u16Size;
+    uint32_t u32_status = bsp_enterCritical();
+    if (ps_buff->u16_count < ps_buff->u16_size) {
+      uint16_t loc_u16Index = (ps_buff->u16_head + ps_buff->u16_count) % ps_buff->u16_size;
 
       // Insert this item at the end of the queue
-      arg_psBuff->au8Data[loc_u16Index] = arg_u8Data;
-      arg_psBuff->u16Count++;
+      ps_buff->au8_data[loc_u16Index] = arg_u8Data;
+      ps_buff->u16_count++;
     } else {
       // Overwrite what's at the head of the queue since we're out of space
-      arg_psBuff->au8Data[arg_psBuff->u16Head] = arg_u8Data;
-      arg_psBuff->u16Head = (arg_psBuff->u16Head + 1) % arg_psBuff->u16Size;
+      ps_buff->au8_data[ps_buff->u16_head] = arg_u8Data;
+      ps_buff->u16_head = (ps_buff->u16_head + 1) % ps_buff->u16_size;
     }
-    bsp_exitCritical(loc_u32Status);
+    bsp_exitCritical(u32_status);
   }
 
-  return loc_bRet;
+  return b_ret;
 }
 
 /**
  * Return a pointer to the head of the buffer without removing that item.
  */
-uint8_t RingBuffer_Peek(RingBuffer_t *arg_psBuff)
+uint8_t RingBuffer_Peek(RingBuffer_t *ps_buff)
 {
   uint8_t loc_u8Ret = 0u;
 
-  if (arg_psBuff == NULL) {
+  if (ps_buff == NULL) {
     // Nothing to do
   }
   else
   {
-    uint32_t loc_u32Status = bsp_enterCritical();
-    if (arg_psBuff->u16Count > 0) {
-      loc_u8Ret = arg_psBuff->au8Data[arg_psBuff->u16Head];
+    uint32_t u32_status = bsp_enterCritical();
+    if (ps_buff->u16_count > 0) {
+      loc_u8Ret = ps_buff->au8_data[ps_buff->u16_head];
     }
-    bsp_exitCritical(loc_u32Status);
+    bsp_exitCritical(u32_status);
   }
 
   return loc_u8Ret;
@@ -86,22 +86,22 @@ uint8_t RingBuffer_Peek(RingBuffer_t *arg_psBuff)
 /**
  * Remove an item from the head of the buffer and return its pointer.
  */
-uint8_t RingBuffer_Remove(RingBuffer_t *arg_psBuff)
+uint8_t RingBuffer_Remove(RingBuffer_t *ps_buff)
 {
   uint8_t loc_u8Ret = 0u;
 
-  if (arg_psBuff == NULL) {
+  if (ps_buff == NULL) {
     // Nothing to do
   }
   else
   {
-    uint32_t loc_u32Status = bsp_enterCritical();
-    if (arg_psBuff->u16Count > 0) {
-      loc_u8Ret = arg_psBuff->au8Data[arg_psBuff->u16Head];
-      arg_psBuff->u16Head = (arg_psBuff->u16Head + 1) % arg_psBuff->u16Size;
-      arg_psBuff->u16Count--;
+    uint32_t u32_status = bsp_enterCritical();
+    if (ps_buff->u16_count > 0) {
+      loc_u8Ret = ps_buff->au8_data[ps_buff->u16_head];
+      ps_buff->u16_head = (ps_buff->u16_head + 1) % ps_buff->u16_size;
+      ps_buff->u16_count--;
     }
-    bsp_exitCritical(loc_u32Status);
+    bsp_exitCritical(u32_status);
   }
 
   return loc_u8Ret;
@@ -111,40 +111,40 @@ uint8_t RingBuffer_Remove(RingBuffer_t *arg_psBuff)
  * Determine if the given buffer is empty.
  * Returns true if the buffer is empty and false otherwise.
  */
-bool RingBuffer_IsEmpty(RingBuffer_t *arg_psBuff)
+bool RingBuffer_IsEmpty(RingBuffer_t *ps_buff)
 {
-  bool loc_bRet = true;
+  bool b_ret = true;
 
-  if (arg_psBuff == NULL) {
+  if (ps_buff == NULL) {
     // Nothing to do
   }
   else
   {
-    uint32_t loc_u32Status = bsp_enterCritical();
-    loc_bRet = (arg_psBuff->u16Count == 0);
-    bsp_exitCritical(loc_u32Status);
+    uint32_t u32_status = bsp_enterCritical();
+    b_ret = (ps_buff->u16_count == 0);
+    bsp_exitCritical(u32_status);
   }
 
-  return loc_bRet;
+  return b_ret;
 }
 
 /**
  * Determine if the given buffer is full.
  * Returns true if the buffer is full and false otherwise.
  */
-bool RingBuffer_IsFull(RingBuffer_t *arg_psBuff)
+bool RingBuffer_IsFull(RingBuffer_t *ps_buff)
 {
-  bool loc_bRet = true;
+  bool b_ret = true;
 
-  if (arg_psBuff == NULL) {
+  if (ps_buff == NULL) {
     // Nothing to do
   }
   else
   {
-    uint32_t loc_u32Status = bsp_enterCritical();
-    loc_bRet = (arg_psBuff->u16Count == arg_psBuff->u16Size);
-    bsp_exitCritical(loc_u32Status);
+    uint32_t u32_status = bsp_enterCritical();
+    b_ret = (ps_buff->u16_count == ps_buff->u16_size);
+    bsp_exitCritical(u32_status);
   }
 
-  return loc_bRet;
+  return b_ret;
 }

@@ -1,6 +1,7 @@
 #include "bsp.h"
 
 #include "can.h"
+#include "clock.h"
 #include "gpio.h"
 #include "uart.h"
 #include "watchdog.h"
@@ -10,6 +11,7 @@
  */
 void bsp_init (void)
 {
+  clock_init();
   gpio_init();
   can_init();
   uart_init();

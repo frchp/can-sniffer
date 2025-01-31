@@ -8,12 +8,12 @@
 #define MEDIA_TASK_PRIORITY     (2u)
 #define MEDIA_TASK_STACK_SIZE   (128u)
 
-extern TaskHandle_t gbl_sMediaTaskHandle;
-extern StackType_t gbl_sStackMedia[MEDIA_TASK_STACK_SIZE];
-extern StaticTask_t gbl_sTCBMedia;
+extern TaskHandle_t s_mediaTaskHdl;
+extern StackType_t s_mediaTaskStack[MEDIA_TASK_STACK_SIZE];
+extern StaticTask_t s_mediaTaskTCB;
 
-void MediaTask_OnReception(void *can_data);
+void MediaTask_OnReception(void *pv_canData);
 
-void MediaTask(void *arg_pvParameters);
+void MediaTask(void *pv_param);
 
 #endif // _MEDIA_TASK_H_

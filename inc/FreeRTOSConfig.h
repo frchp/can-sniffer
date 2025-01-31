@@ -1,7 +1,8 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 
-#include "stm32l552xx.h" // Include STM32-specific header for clock speed
+#include "stm32l552xx.h" // Include STM32-specific header
+#include "board.h"
 
 /*-----------------------------------------------------------
  * FreeRTOS Kernel Configuration
@@ -9,7 +10,7 @@
 
 /* Cortex-M specific definitions */
 #define configUSE_PREEMPTION                  1
-#define configCPU_CLOCK_HZ                    (110000000ul) // CPU Clock Frequency
+#define configCPU_CLOCK_HZ                    (SYSTEM_CLOCK_FREQ_HZ) // CPU Clock Frequency
 #define configTICK_RATE_HZ                    (1000u) // 1 ms tick
 #define configMAX_PRIORITIES                  5                 // Maximum number of priorities
 #define configMINIMAL_STACK_SIZE              ((uint16_t)128)   // Minimal stack size in words

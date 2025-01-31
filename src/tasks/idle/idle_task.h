@@ -17,4 +17,22 @@
  * 3. Use User tickless idle : configUSE_TICKLESS_IDLE > 1 : similar to idle hook except idle hook can wake up on next tick
  */
 
+#include "FreeRTOSConfig.h"
+
+#if configUSE_IDLE_HOOK == 1
+  #pragma message "User defined idle hook enabled"
+#endif
+
+#if configUSE_TICKLESS_IDLE == 0
+  #pragma message "Tickless idle disabled"
+#endif
+
+#if configUSE_TICKLESS_IDLE == 1
+  #pragma message "FreeRTOS tickless idle enabled"
+#endif
+
+#if configUSE_TICKLESS_IDLE > 1
+  #pragma message "User defined tickless idle enabled"
+#endif
+
 #endif // _IDLE_TASK_H_

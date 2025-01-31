@@ -22,6 +22,6 @@ typedef enum
   ERR_OTHER
 } Error_Component_t;
 
-void Error_Handler(bool arg_bIsCritical, Error_Component_t arg_eComponent, Error_Type_t arg_eType);
+void Error_Handler(bool b_isCritical, Error_Component_t e_component, Error_Type_t e_type);
 
 #endif // _ERROR_H_

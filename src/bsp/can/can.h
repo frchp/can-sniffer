@@ -9,6 +9,9 @@ typedef struct
   uint8_t u8Data;
 } Can_Data_t;
 
+/**
+  @brief Initialize FDCAN peripheral and driver.
+ */
 void can_init(void);
 
 #endif // _CAN_H_

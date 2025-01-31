@@ -3,7 +3,14 @@
 
 #include <stdint.h>
 
+/**
+  @brief Initialize LPUART1 peripheral and driver.
+ */
 void uart_init(void);
-void uart_transmit(char *str, uint8_t size);
+
+/**
+  @brief Transmit given string.
+ */
+void uart_transmit(char *ac_str, uint8_t u8_size);
 
 #endif // _UART_H_

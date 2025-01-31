@@ -33,7 +33,8 @@
 			"compare": "cpp",
 			"tuple": "cpp",
 			"xtr1common": "cpp",
-			"app.h": "c"
+			"app.h": "c",
+			"gpio.h": "c"
 		}
 	}
 }

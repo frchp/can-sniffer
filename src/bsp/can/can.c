@@ -6,6 +6,9 @@
 #include <stdio.h> // TODO : to be moved
 #include <string.h>
 
+/**
+  @brief Initialize FDCAN peripheral and driver.
+ */
 void can_init(void)
 {
   RCC->APB1ENR1 |= RCC_APB1ENR2_FDCAN1EN;
@@ -33,6 +36,9 @@ void can_init(void)
   while (FDCAN1->CCCR & FDCAN_CCCR_INIT);
 }
 
+/**
+  @brief Interrupt routine.
+ */
 void FDCAN1_IT0_IRQHandler(void)
 {
   if (FDCAN1->IR & FDCAN_IR_RF0N)

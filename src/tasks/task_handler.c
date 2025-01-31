@@ -9,6 +9,7 @@
 #include "error.h"
 #include "media_task.h"
 #include "wdog_task.h"
+#include "idle_task.h"
 
 /**
   @brief Setup OS tasks.
@@ -23,27 +24,27 @@ void task_init(void)
    */
 
   // Create MEDIA Task
-  gbl_sMediaTaskHandle = xTaskCreateStatic(MediaTask,            // Task function
+  s_mediaTaskHdl = xTaskCreateStatic(MediaTask,            // Task function
               "MEDIA",              // Task name
               MEDIA_TASK_STACK_SIZE,                  // Stack size in words
               NULL,                 // Task parameter
               tskIDLE_PRIORITY + MEDIA_TASK_PRIORITY, // Task priority
-              gbl_sStackMedia,
-              &gbl_sTCBMedia );
-  if(gbl_sMediaTaskHandle == NULL)
+              s_mediaTaskStack,
+              &s_mediaTaskTCB );
+  if(s_mediaTaskHdl == NULL)
   {
     Error_Handler(true, ERR_OS_MEDIA_TASK, ERR_TYPE_INIT);
   }
 
   // Create WATCHDOG Task
-  gbl_sWatchdogTaskHandle = xTaskCreateStatic(WatchdogTask,            // Task function
+  s_wdogTaskHdl = xTaskCreateStatic(WatchdogTask,            // Task function
               "WATCHDOG",             // Task name
               WDOG_TASK_STACK_SIZE,                         // Stack size in words
               NULL,                        // Task parameter
               tskIDLE_PRIORITY + WDOG_TASK_PRIORITY,        // Task priority
-              gbl_sStackWdog,
-              &gbl_sTCBWdog );
-  if(gbl_sWatchdogTaskHandle == NULL)
+              s_wdogTaskStack,
+              &s_wdogTaskTCB );
+  if(s_wdogTaskHdl == NULL)
   {
     Error_Handler(true, ERR_OS_WDOG_TASK, ERR_TYPE_INIT);
   }
