@@ -33,8 +33,8 @@ void uart_init(void)
 void uart_transmit(char *ac_str, uint8_t u8_size)
 {
   // Copy to buffer and cut buffer if too long
-  u8_uart_tx_size = size > UART_MAX_SIZE ? UART_MAX_SIZE : size;
-  memcpy(ac_uart_tx_buffer, str, u8_uart_tx_size * sizeof(char));
+  u8_uart_tx_size = u8_size > UART_MAX_SIZE ? UART_MAX_SIZE : u8_size;
+  memcpy(ac_uart_tx_buffer, ac_str, u8_uart_tx_size * sizeof(char));
   u8_uart_tx_idx = 0u;
   uart_send_next_char();
 }

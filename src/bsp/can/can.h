@@ -3,10 +3,15 @@
 
 #include <stdint.h>
 
+// Maximum payload is 8 bytes
+#define CAN_MAX_PAYLOAD_SIZE (8u)
+
 typedef struct
 {
-  /* TODO */
-  uint8_t u8Data;
+  uint32_t u32_extID;
+  uint8_t u8_cmd;
+  uint8_t u8_data[CAN_MAX_PAYLOAD_SIZE];
+  uint8_t u8_length;
 } Can_Data_t;
 
 /**

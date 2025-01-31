@@ -5,6 +5,9 @@
 #include "FreeRTOSConfig.h"
 #include <stdio.h> // TODO : to be moved
 #include <string.h>
+#include "media_task.h"
+
+static volatile Can_Data_t s_can_data_rx;
 
 /**
   @brief Initialize FDCAN peripheral and driver.
@@ -48,27 +51,27 @@ void FDCAN1_IT0_IRQHandler(void)
     if (FDCAN1->RXF0S & FDCAN_RXF0S_F0FL_Msk)
     {
       uint32_t get_index = (FDCAN1->RXF0S & FDCAN_RXF0S_F0GI_Msk) >> FDCAN_RXF0S_F0GI_Pos;
-            uint32_t *rx_fifo_address = (uint32_t *)(FDCAN1_BASE + 0x100 + (get_index * 0x10));
+      uint32_t *rx_fifo_address = (uint32_t *)(FDCAN1_BASE + 0x100 + (get_index * 0x10));
 
-            uint32_t can_id = (rx_fifo_address[0] >> 3) & 0x1FFFFFFF;
-            uint8_t data_length = (rx_fifo_address[1] & 0xF);
-            uint8_t rx_data[8];
+      s_can_data_rx.u32_extID = (rx_fifo_address[0] >> 3) & 0x1FFFFFFF;
+      s_can_data_rx.u8_length = (rx_fifo_address[1] & 0xF);
 
-            for (uint8_t i = 0; i < data_length; i++)
-            {
-                rx_data[i] = ((uint8_t*)&rx_fifo_address[2])[i];
-            }
+      for (uint8_t i = 0; i < s_can_data_rx.u8_length; i++)
+      {
+        s_can_data_rx.u8_data[i] = ((uint8_t*)&rx_fifo_address[2])[i];
+      }
 
-            FDCAN1->RXF0A = get_index; // Acknowledge message
+      FDCAN1->RXF0A = get_index; // Acknowledge message
 
-            /* TODO : send event and do this in other task */
-            char msg[50];
-            sprintf(msg, "CAN ID: 0x%08lu, Data: ", can_id);
-            for (uint8_t i = 0; i < data_length; i++) {
-                sprintf(msg + strlen(msg), "%02X ", rx_data[i]);
-            }
-            strcat(msg, "\r\n");
-            uart_transmit(msg, 50);
+      MediaTask_OnReception((void *)&s_can_data_rx);
+      /* TODO : send event and do this in other task */
+      char msg[50];
+      sprintf(msg, "CAN ID: 0x%08lu, Data: ", s_can_data_rx.u32_extID);
+      for (uint8_t i = 0; i < s_can_data_rx.u8_length; i++) {
+          sprintf(msg + strlen(msg), "%02X ", s_can_data_rx.u8_data[i]);
+      }
+      strcat(msg, "\r\n");
+      uart_transmit(msg, 50);
     }
   }
 }

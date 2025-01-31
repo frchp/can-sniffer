@@ -1,9 +1,11 @@
 #include "app.h"
 
+#include "mcp2551.h"
+
 /**
   @brief Setup the application.
  */
 void app_init(void)
 {
-  // Nothing for now
+  mcp2551_HighSpeedMode(); // state by default
 }

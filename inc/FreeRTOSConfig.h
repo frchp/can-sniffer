@@ -63,6 +63,7 @@
 /* Idle */
 #define configEXPECTED_IDLE_TIME_BEFORE_SLEEP 5
 #define configUSE_TICKLESS_IDLE               1                 // 1 to enable, 2 to create specific port
+// TODO : add pre and post sleep to put driver to sleep and wake up here
 
 /*-----------------------------------------------------------
  * Optional functions
