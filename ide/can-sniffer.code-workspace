@@ -18,7 +18,7 @@
 			"**/CMakeFiles/": true,
 			"**/cmake_install.cmake": true
 		},
-		"cortex-debug.variableUseNaturalFormat": true,
+		"cortex-debug.variableUseNaturalFormat": false,
 		"files.associations": {
 			"motor_task.h": "c",
 			"*.in": "cpp",
@@ -36,7 +36,8 @@
 			"app.h": "c",
 			"gpio.h": "c",
 			"string.h": "c",
-			"xstring": "c"
+			"xstring": "c",
+			"transmitter.h": "c"
 		}
 	}
 }

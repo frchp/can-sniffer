@@ -1,13 +1,14 @@
 #include <stdbool.h>
 #include <stddef.h>
+#include <string.h>
 
 #include "media_task.h"
 
 #include "error.h"
 #include "can.h"
+#include "transmitter.h"
+#include "uart.h"
 
-#include "FreeRTOS.h"
-#include "task.h"
 #include "queue.h"
 
 /* Media task parameters*/
@@ -20,6 +21,8 @@ StaticTask_t s_mediaTaskTCB;
 static StaticQueue_t s_canDataQueue;
 static uint8_t au8_canDataQueueBuff[ CANDATA_QUEUE_LENGTH * CANDATA_QUEUE_ITEM_SIZE ];
 static QueueHandle_t s_canDataQueueHdl;
+
+#define MEDIA_MAX_TRANSMIT_SIZE (120u)
 
 static bool b_taskInit = false;
 
@@ -52,6 +55,7 @@ void MediaTask(void *pv_param)
   (void)pv_param; // Avoid compiler warning for unused parameter
   uint32_t u32NotifiedValue;
   Can_Data_t s_incomingCanData;
+  char ac_transmitBuff[MEDIA_MAX_TRANSMIT_SIZE];
 
   s_canDataQueueHdl = xQueueCreateStatic( CANDATA_QUEUE_LENGTH,
                                  CANDATA_QUEUE_ITEM_SIZE,
@@ -73,8 +77,8 @@ void MediaTask(void *pv_param)
     {
       if(xQueueReceive(s_canDataQueueHdl, &s_incomingCanData, 0u) == pdPASS)
       {
-        // TODO : call application to set data correctly
-        // TODO : call UART to send data
+        transmitter_serialize(s_incomingCanData, ac_transmitBuff, MEDIA_MAX_TRANSMIT_SIZE);
+        uart_transmit(ac_transmitBuff, strlen(ac_transmitBuff));
       }
     }
     else

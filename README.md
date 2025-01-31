@@ -57,10 +57,4 @@ Each MCU has their own ARM compiler flags. Those are defined in a individual mod
  - [Optimizing low power](https://mcuoneclipse.com/2024/05/22/low-power-optimization-techniques-for-arm-cortex-m0-microcontrollers/)
 
 ## TODO
- - Setup app
-    - can : call media task and send to queue can data
-    - mcp2551
-        - txd interrupt
-        - rxd interrupt
-        - RS to put to sleep
  - HW : board with MCP2551, 5v from nucleo

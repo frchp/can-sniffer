@@ -14,21 +14,16 @@ StaticTask_t s_wdogTaskTCB;
 void WatchdogTask(void *pv_param)
 {
   (void)pv_param; // Avoid compiler warning for unused parameter
+  watchdog_init();
 
   for (;;)
   {
-    // Block for 500 ms and refresh watchdog
-    vTaskDelay(pdMS_TO_TICKS(500));
-    if((GPIO_LED_ALIVE_PORT->ODR & GPIO_LED_ALIVE_PIN) != 0u)
-    {
-      // if LED was on, turn off
-      GPIO_LED_ALIVE_PORT->ODR &= ~GPIO_LED_ALIVE_PIN;
-    }
-    else
-    {
-      // if LED was off, turn on
-      GPIO_LED_ALIVE_PORT->ODR |= GPIO_LED_ALIVE_PIN;
-    }
+    // Block for 200 ms and refresh watchdog
+    vTaskDelay(pdMS_TO_TICKS(200));
+
+    // Toggle LED
+    GPIO_LED_ALIVE_PORT->ODR ^= GPIO_LED_ALIVE_PIN;
+
     watchdog_refresh();
   }
 }

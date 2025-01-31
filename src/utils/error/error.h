@@ -17,8 +17,16 @@ typedef enum
 
 typedef enum
 {
+  ERR_MAIN,
+
+  ERR_HARD,
+  ERR_BUS,
+  ERR_MEM,
+
+  ERR_OS,
   ERR_OS_MEDIA_TASK,
   ERR_OS_WDOG_TASK,
+
   ERR_OTHER
 } Error_Component_t;
 

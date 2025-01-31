@@ -4,7 +4,7 @@ message("dependencies.cmake")
 
 list(APPEND CMAKE_MESSAGE_INDENT "|")
 
-message("cube-l5")
+message("cube-l5 fetched")
 FetchContent_Declare(
   cube-l5
   GIT_REPOSITORY https://github.com/STMicroelectronics/STM32CubeL5.git

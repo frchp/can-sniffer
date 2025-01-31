@@ -8,7 +8,10 @@ ${PROJ_PATH}/inc #FreeRTOSConfig.h
 ${PROJ_PATH}/src/tasks/idle # idle functions
 # Arm drivers
 ${PROJ_PATH}/vendor/Device
-${PROJ_PATH}/vendor/CMSIS)
+${PROJ_PATH}/vendor/CMSIS
+# error
+${PROJ_PATH}/src/utils/error
+)
 
 target_compile_definitions(freertos_config
       INTERFACE

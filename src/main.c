@@ -3,6 +3,7 @@
 #include "bsp.h"
 #include "app.h"
 #include "task_handler.h"
+#include "error.h"
 
 int main(void)
 {
@@ -14,4 +15,5 @@ int main(void)
   task_startOS();
 
   /* OS is started now, we should not be here */
+  Error_Handler(true, ERR_MAIN, ERR_TYPE_FAULT);
 }

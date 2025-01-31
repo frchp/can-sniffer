@@ -5,8 +5,8 @@
 #include "task.h"
 
 /* Motor task configuration */
-#define WDOG_TASK_PRIORITY     (1u)
-#define WDOG_TASK_STACK_SIZE   (128u)
+#define WDOG_TASK_PRIORITY     (2u)
+#define WDOG_TASK_STACK_SIZE   (256u)
 
 extern TaskHandle_t s_wdogTaskHdl;
 extern StackType_t s_wdogTaskStack[WDOG_TASK_STACK_SIZE];

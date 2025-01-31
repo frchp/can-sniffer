@@ -5,8 +5,8 @@
 #include "task.h"
 
 /* Media task configuration */
-#define MEDIA_TASK_PRIORITY     (2u)
-#define MEDIA_TASK_STACK_SIZE   (128u)
+#define MEDIA_TASK_PRIORITY     (1u)
+#define MEDIA_TASK_STACK_SIZE   (512u)
 
 extern TaskHandle_t s_mediaTaskHdl;
 extern StackType_t s_mediaTaskStack[MEDIA_TASK_STACK_SIZE];

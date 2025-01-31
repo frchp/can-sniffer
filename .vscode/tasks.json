@@ -23,7 +23,18 @@
 			"presentation": {
 					"reveal": "always",
 					"panel": "dedicated"
-			}
+			},
+			"problemMatcher": {
+				"source": "Build CMake",
+				"pattern": {
+						"regexp": ""
+				},
+				"background": {
+						"activeOnStart": true,
+						"beginsPattern": ".*cmake --build build*",
+						"endsPattern": ".*Terminal will be reused by tasks, press any key to close it.*"
+				}
+			},
 		},
 	]
 }

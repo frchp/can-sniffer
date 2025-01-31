@@ -19,6 +19,8 @@ void Error_Handler(bool b_isCritical, Error_Component_t e_component, Error_Type_
   gbl_sLastRecordedError.e_component = e_component;
   gbl_sLastRecordedError.e_type = e_type;
 
+  __asm("bkpt");
+
   if(b_isCritical)
   {
     // Wait until watchdog reset

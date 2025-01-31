@@ -10,6 +10,9 @@
 #include "media_task.h"
 #include "wdog_task.h"
 #include "idle_task.h"
+#include "board.h"
+
+#define OS_TASK_MAX_PRIO (configMAX_PRIORITIES - 1)
 
 /**
   @brief Setup OS tasks.
@@ -22,13 +25,12 @@ void task_init(void)
    * Watchdog -> IDLE + 1
    * Lowest priority = IDLE
    */
-
   // Create MEDIA Task
   s_mediaTaskHdl = xTaskCreateStatic(MediaTask,            // Task function
               "MEDIA",              // Task name
               MEDIA_TASK_STACK_SIZE,                  // Stack size in words
               NULL,                 // Task parameter
-              tskIDLE_PRIORITY + MEDIA_TASK_PRIORITY, // Task priority
+              OS_TASK_MAX_PRIO - MEDIA_TASK_PRIORITY, // Task priority
               s_mediaTaskStack,
               &s_mediaTaskTCB );
   if(s_mediaTaskHdl == NULL)
@@ -41,7 +43,7 @@ void task_init(void)
               "WATCHDOG",             // Task name
               WDOG_TASK_STACK_SIZE,                         // Stack size in words
               NULL,                        // Task parameter
-              tskIDLE_PRIORITY + WDOG_TASK_PRIORITY,        // Task priority
+              OS_TASK_MAX_PRIO - WDOG_TASK_PRIORITY,        // Task priority
               s_wdogTaskStack,
               &s_wdogTaskTCB );
   if(s_wdogTaskHdl == NULL)
@@ -63,16 +65,13 @@ void task_startOS(void)
   @brief Provide the memory used by the Idle task
 */
 #if (configSUPPORT_STATIC_ALLOCATION == 1)
+static StaticTask_t xIdleTaskTCB;
+static StackType_t uxIdleTaskStack[ configMINIMAL_STACK_SIZE ];
+
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
                                     StackType_t **ppxIdleTaskStackBuffer,
                                     uint32_t *pulIdleTaskStackSize )
 {
-  /* If the buffers to be provided to the Idle task are declared inside this
-      function then they must be declared static - otherwise they will be allocated on
-      the stack and so not exists after this function exits. */
-  static StaticTask_t xIdleTaskTCB;
-  static StackType_t uxIdleTaskStack[ configMINIMAL_STACK_SIZE ];
-
   /* Pass out a pointer to the StaticTask_t structure in which the Idle task's
       state will be stored. */
   *ppxIdleTaskTCBBuffer = &xIdleTaskTCB;
@@ -85,22 +84,18 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer,
       configMINIMAL_STACK_SIZE is specified in words, not bytes. */
   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
 }
-#endif
 
 /**
   @brief Provide the memory used by the Timer service task
 */
-#if ((configSUPPORT_STATIC_ALLOCATION == 1) && (configUSE_TIMERS == 1))
+#if (configUSE_TIMERS == 1)
+static StaticTask_t xTimerTaskTCB;
+static StackType_t uxTimerTaskStack[ configTIMER_TASK_STACK_DEPTH ];
+
 void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer,
                                      StackType_t **ppxTimerTaskStackBuffer,
                                      uint32_t *pulTimerTaskStackSize )
 {
-  /* If the buffers to be provided to the Timer task are declared inside this
-      function then they must be declared static - otherwise they will be allocated on
-      the stack and so not exists after this function exits. */
-  static StaticTask_t xTimerTaskTCB;
-  static StackType_t uxTimerTaskStack[ configTIMER_TASK_STACK_DEPTH ];
-
   /* Pass out a pointer to the StaticTask_t structure in which the Timer
       task's state will be stored. */
   *ppxTimerTaskTCBBuffer = &xTimerTaskTCB;
@@ -113,4 +108,12 @@ void vApplicationGetTimerTaskMemory( StaticTask_t **ppxTimerTaskTCBBuffer,
     configTIMER_TASK_STACK_DEPTH is specified in words, not bytes. */
   *pulTimerTaskStackSize = configTIMER_TASK_STACK_DEPTH;
 }
-#endif
+#endif // (configUSE_TIMERS == 1)
+#endif // (configSUPPORT_STATIC_ALLOCATION == 1)
+
+#if (configCHECK_FOR_STACK_OVERFLOW == 2)
+void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
+{
+  while (1);
+}
+#endif // (configCHECK_FOR_STACK_OVERFLOW == 2)

@@ -14,17 +14,18 @@ static volatile Can_Data_t s_can_data_rx;
  */
 void can_init(void)
 {
-  RCC->APB1ENR1 |= RCC_APB1ENR2_FDCAN1EN;
+  RCC->APB1ENR2 |= RCC_APB1ENR2_FDCAN1EN;
 
-  // Enable clock to FDCAN
-  RCC->CCIPR1 |= (3U << RCC_CCIPR1_FDCANSEL_Pos);  // SYSCLK source
+  // Enable clock to FDCAN : PLLQ
+  RCC->PLLCFGR |= RCC_PLLCFGR_PLLQEN;
+  RCC->CCIPR1 |= RCC_CCIPR1_FDCANSEL_0;  // PLLQ source
 
   // Enter initialization mode
   FDCAN1->CCCR |= FDCAN_CCCR_INIT;
   while (!(FDCAN1->CCCR & FDCAN_CCCR_INIT));
 
   // Configure nominal bit timing (Assuming 40MHz clock, 500 kbps CAN)
-  FDCAN1->NBTP = (10U << 16) | (13U << 8) | (3U << 0);
+  FDCAN1->NBTP = (110U << 16) | (35U << 8) | (9U << 0);
 
   // Enable global filter to accept all messages
   FDCAN1->RXGFC = 0;
@@ -64,14 +65,6 @@ void FDCAN1_IT0_IRQHandler(void)
       FDCAN1->RXF0A = get_index; // Acknowledge message
 
       MediaTask_OnReception((void *)&s_can_data_rx);
-      /* TODO : send event and do this in other task */
-      char msg[50];
-      sprintf(msg, "CAN ID: 0x%08lu, Data: ", s_can_data_rx.u32_extID);
-      for (uint8_t i = 0; i < s_can_data_rx.u8_length; i++) {
-          sprintf(msg + strlen(msg), "%02X ", s_can_data_rx.u8_data[i]);
-      }
-      strcat(msg, "\r\n");
-      uart_transmit(msg, 50);
     }
   }
 }

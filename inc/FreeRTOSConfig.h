@@ -4,6 +4,8 @@
 #include "stm32l552xx.h" // Include STM32-specific header
 #include "board.h"
 #include "idle_task.h"
+#include "error.h"
+#include <assert.h>
 
 /*-----------------------------------------------------------
  * FreeRTOS Kernel Configuration
@@ -15,7 +17,7 @@
 #define configTICK_RATE_HZ                    (1000u) // 1 ms tick
 #define configMAX_PRIORITIES                  5                 // Maximum number of priorities
 #define configMINIMAL_STACK_SIZE              ((uint16_t)128)   // Minimal stack size in words
-#define configTOTAL_HEAP_SIZE                 ((size_t)(10 * 1024)) // 10 KB heap size
+#define configTOTAL_HEAP_SIZE                 0                 // No heap needed for static allocation
 #define configMAX_TASK_NAME_LEN               16                // Task name length
 #define configUSE_16_BIT_TICKS                0                 // Use 32-bit ticks
 #define configIDLE_SHOULD_YIELD               1                 // Idle task yields CPU time
@@ -23,7 +25,7 @@
 /* Hook function definitions */
 #define configUSE_IDLE_HOOK                   0                 // Idle hook
 #define configUSE_TICK_HOOK                   0                 // No tick hook
-#define configCHECK_FOR_STACK_OVERFLOW        0                 // Enable stack overflow checking
+#define configCHECK_FOR_STACK_OVERFLOW        2                 // Enable stack overflow checking
 #define configUSE_MALLOC_FAILED_HOOK          0                 // Enable malloc failed hook
 
 /* Software timer definitions */
@@ -56,10 +58,9 @@
 #define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY    5
 #define configKERNEL_INTERRUPT_PRIORITY       (configLIBRARY_LOWEST_INTERRUPT_PRIORITY << (8 - __NVIC_PRIO_BITS)) // Lowest priority
 #define configMAX_SYSCALL_INTERRUPT_PRIORITY  (configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY << (8 - __NVIC_PRIO_BITS))  // Priority for FreeRTOS API calls
-#define configMAX_API_CALL_INTERRUPT_PRIORITY configMAX_SYSCALL_INTERRUPT_PRIORITY // Alias for CMSIS compatibility
 
 /* Define to trap errors during development */
-#define configASSERT(x) if ((x) == 0) { taskDISABLE_INTERRUPTS(); for(;;); }
+#define configASSERT(x) if ((x) == 0) { Error_Handler(true, ERR_OS, ERR_TYPE_FAULT); }
 
 /* Idle */
 #define configEXPECTED_IDLE_TIME_BEFORE_SLEEP 5
