@@ -56,5 +56,5 @@ Each MCU has their own ARM compiler flags. Those are defined in a individual mod
  - [FreeRTOS and Low power](https://www.freertos.org/low-power-ARM-cortex-rtos)
  - [Optimizing low power](https://mcuoneclipse.com/2024/05/22/low-power-optimization-techniques-for-arm-cortex-m0-microcontrollers/)
 
-## TODO
- - HW : board with MCP2551, 5v from nucleo
+## HW
+See [schematic](hw/can-sniffer.pdf).

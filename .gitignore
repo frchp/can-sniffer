@@ -57,3 +57,6 @@ CMakeFiles/**
 _deps/**
 build/**
 cmake_install.cmake
+
+# KiCad backups
+hw/can-sniffer/*backups
