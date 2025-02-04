@@ -19,7 +19,6 @@ ${PROJ_PATH}/src/bsp/uart/uart.c
 ${PROJ_PATH}/src/bsp/watchdog/watchdog.c
 # utils
 ${PROJ_PATH}/src/utils/error/error.c
-${PROJ_PATH}/src/utils/ring_buffer/ring_buffer.c
 # tasks
 ${PROJ_PATH}/src/tasks/task_handler.c
 ${PROJ_PATH}/src/tasks/hmi/hmi_task.c

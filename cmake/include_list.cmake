@@ -15,7 +15,6 @@ ${PROJ_PATH}/src/bsp/uart
 ${PROJ_PATH}/src/bsp/watchdog
 # utils
 ${PROJ_PATH}/src/utils/error
-${PROJ_PATH}/src/utils/ring_buffer
 # root
 ${PROJ_PATH}/src
 ${PROJ_PATH}/inc
