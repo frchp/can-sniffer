@@ -33,7 +33,7 @@ void gpio_init(void)
   GPIOA->OSPEEDR |= 3U << GPIO_OSPEEDR_OSPEED9_Pos; // High speed
   GPIOA->PUPDR &= ~GPIO_PUPDR_PUPD9; // No pull-up/down
 
-  // Configure PB7 as general output pin (Alive LED)
+  // Configure PB7 as general output pin (RX - Processing LED)
   GPIOB->MODER &= ~GPIO_MODER_MODE7;
   GPIOB->MODER |= 1U << GPIO_MODER_MODE7_Pos;
   GPIOB->OTYPER &= ~GPIO_OTYPER_OT7; // Push-pull mode

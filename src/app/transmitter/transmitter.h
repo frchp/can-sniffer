@@ -9,4 +9,9 @@
  */
 void transmitter_serialize(Can_Data_t s_canData, char* ac_outBuff, const uint8_t u8_maxSize);
 
+/**
+  @brief Callback when transmission is complete.
+ */
+void transmitter_isDone(void);
+
 #endif // _TRANSMITTER_H_

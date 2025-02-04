@@ -2,6 +2,7 @@
 
 #include "watchdog.h"
 #include "stm32l552xx.h"
+#include "hmi_task.h"
 
 /* Watchdog task parameters */
 TaskHandle_t s_wdogTaskHdl;
@@ -21,8 +22,7 @@ void WatchdogTask(void *pv_param)
     // Block for 200 ms and refresh watchdog
     vTaskDelay(pdMS_TO_TICKS(200));
 
-    // Toggle LED
-    GPIO_LED_ALIVE_PORT->ODR ^= GPIO_LED_ALIVE_PIN;
+    HmiTask_Notify(HMI_IS_ALIVE);
 
     watchdog_refresh();
   }

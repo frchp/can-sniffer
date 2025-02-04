@@ -6,6 +6,7 @@
 #include <stdio.h> // TODO : to be moved
 #include <string.h>
 #include "media_task.h"
+#include "hmi_task.h"
 
 static volatile Can_Data_t s_can_data_rx;
 
@@ -64,6 +65,7 @@ void FDCAN1_IT0_IRQHandler(void)
 
       FDCAN1->RXF0A = get_index; // Acknowledge message
 
+      HmiTask_Notify(HMI_START_PROCESSING);
       MediaTask_OnReception((void *)&s_can_data_rx);
     }
   }

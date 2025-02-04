@@ -4,7 +4,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-/* Motor task configuration */
+/* Watchdog task configuration */
 #define WDOG_TASK_PRIORITY     (2u)
 #define WDOG_TASK_STACK_SIZE   (256u)
 

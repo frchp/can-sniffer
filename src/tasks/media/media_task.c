@@ -53,9 +53,12 @@ void MediaTask_OnReception(void *pv_canData)
 void MediaTask(void *pv_param)
 {
   (void)pv_param; // Avoid compiler warning for unused parameter
-  uint32_t u32NotifiedValue;
+  uint32_t u32_notifiedValue;
   Can_Data_t s_incomingCanData;
   char ac_transmitBuff[MEDIA_MAX_TRANSMIT_SIZE];
+
+  // Attach listener to end of TX
+  uart_attach(transmitter_isDone);
 
   s_canDataQueueHdl = xQueueCreateStatic( CANDATA_QUEUE_LENGTH,
                                  CANDATA_QUEUE_ITEM_SIZE,
@@ -70,10 +73,10 @@ void MediaTask(void *pv_param)
   for (;;)
   {
     // Notification is used as counting semaphore for order_handler incoming
-    u32NotifiedValue = ulTaskNotifyTake( pdFALSE /* value decremented */,
+    u32_notifiedValue = ulTaskNotifyTake( pdFALSE /* value decremented */,
                                         portMAX_DELAY /* wait for ever for an incoming msg */);
 
-    if( u32NotifiedValue > 0u )
+    if( u32_notifiedValue > 0u )
     {
       if(xQueueReceive(s_canDataQueueHdl, &s_incomingCanData, 0u) == pdPASS)
       {

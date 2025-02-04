@@ -10,6 +10,7 @@
 #include "media_task.h"
 #include "wdog_task.h"
 #include "idle_task.h"
+#include "hmi_task.h"
 #include "board.h"
 
 #define OS_TASK_MAX_PRIO (configMAX_PRIORITIES - 1)
@@ -21,8 +22,9 @@ void task_init(void)
 {
   /**
    * Highest priority
-   * Media -> IDLE + 2
-   * Watchdog -> IDLE + 1
+   * Media -> MAX - 1
+   * Watchdog -> MAX - 2
+   * HMI -> MAX - 3
    * Lowest priority = IDLE
    */
   // Create MEDIA Task
@@ -49,6 +51,19 @@ void task_init(void)
   if(s_wdogTaskHdl == NULL)
   {
     Error_Handler(true, ERR_OS_WDOG_TASK, ERR_TYPE_INIT);
+  }
+
+  // Create HMI Task
+  s_hmiTaskHdl = xTaskCreateStatic(HmiTask,            // Task function
+              "HMI",             // Task name
+              HMI_TASK_STACK_SIZE,                         // Stack size in words
+              NULL,                        // Task parameter
+              OS_TASK_MAX_PRIO - HMI_TASK_PRIORITY,        // Task priority
+              s_hmiTaskStack,
+              &s_hmiTaskTCB );
+  if(s_hmiTaskHdl == NULL)
+  {
+    Error_Handler(true, ERR_OS_HMI_TASK, ERR_TYPE_INIT);
   }
 }
 
