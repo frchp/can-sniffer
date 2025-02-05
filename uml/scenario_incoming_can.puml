@@ -1,7 +1,7 @@
 @startuml
 actor CANBus
 CANBus -> can : FDCAN1_IT0_IRQHandler()
-can -> can 
+can -> can
 note right
 Get data, ID and length from incoming data
 end note
@@ -10,16 +10,16 @@ alt HMI_START_PROCESSING received
     hmi_task -> hmi : hmi_startProcessing()
 end
 can -> media_task : OnReception(&s_can_data_rx)
-alt HMI_START_PROCESSING received
-    media_task -> media_task : xQueueSendToBack(s_canDataQueueHdl, pv_canData, 0u)
-    media_task -> media_task : xTaskNotifyGive(s_mediaTaskHdl)
-    note right
-        Load CAN data into queue and notify task that there is data to process by using a counting sempahore
-    end note
-    alt Counting semaphore not equal to 0
-        media_task -> media_task : xQueueReceive(s_canDataQueueHdl, &s_incomingCanData, 0u)
-        media_task -> transmitter : serialize(s_incomingCanData, ac_transmitBuff, MEDIA_MAX_TRANSMIT_SIZE)
-        media_task -> uart : transmit(ac_transmitBuff, strlen(ac_transmitBuff))
-    end
+media_task -> media_task : xQueueSendToBack(s_canDataQueueHdl, pv_canData, 0u)
+media_task -> media_task : xTaskNotifyGive(s_mediaTaskHdl)
+note right
+    Load CAN data into queue and notify task that there is data to process by using a counting sempahore
+end note
+alt Counting semaphore not equal to 0
+    media_task -> media_task : xQueueReceive(s_canDataQueueHdl, &s_incomingCanData, 0u)
+    media_task -> transmitter : serialize(s_incomingCanData, ac_transmitBuff, MEDIA_MAX_TRANSMIT_SIZE)
+    media_task -> uart : transmit(ac_transmitBuff, strlen(ac_transmitBuff))
 end
+media_task --> can
+can --> CANBus
 @enduml
