@@ -13,6 +13,7 @@ ${PROJ_PATH}/src/bsp/clock
 ${PROJ_PATH}/src/bsp/gpio
 ${PROJ_PATH}/src/bsp/i2c
 ${PROJ_PATH}/src/bsp/uart
+${PROJ_PATH}/src/bsp/spi
 ${PROJ_PATH}/src/bsp/watchdog
 # utils
 ${PROJ_PATH}/src/utils/error
