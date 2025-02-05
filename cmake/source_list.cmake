@@ -15,6 +15,7 @@ ${PROJ_PATH}/src/bsp/bsp.c
 ${PROJ_PATH}/src/bsp/can/can.c
 ${PROJ_PATH}/src/bsp/clock/clock.c
 ${PROJ_PATH}/src/bsp/gpio/gpio.c
+${PROJ_PATH}/src/bsp/i2c/i2c.c
 ${PROJ_PATH}/src/bsp/uart/uart.c
 ${PROJ_PATH}/src/bsp/watchdog/watchdog.c
 # utils
