@@ -3,6 +3,8 @@ Based on [sandbox](https://github.com/frchp/stm32-l552-sandbox)
 
 ![Build status](https://github.com/frchp/can-sniffer/actions/workflows/actions.yml/badge.svg)
 
+![Sequence diagram](uml/scenario_incoming_can.png)
+
 ## Toolchain
 - [ARM GNU](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)
 - [CMake](https://cmake.org/download/)
