@@ -1,5 +1,5 @@
 # CAN sniffer
-Based on [sandbox](https://github.com/frchp/stm32-l552-sandbox)
+Based on [pcb-motor-driver](https://github.com/frchp/pcb-motor-driver) template.
 
 ![Build status](https://github.com/frchp/can-sniffer/actions/workflows/actions.yml/badge.svg)
 
